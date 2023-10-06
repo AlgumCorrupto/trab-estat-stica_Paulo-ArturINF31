@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Trab. Estatística</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <link rel="stylesheet" href="./style.css">
+
+        <script src="./Coding_Socks/tablegen.js"></script>
+
+        <header class="header">
+            <div class="creditos" id="creditos">
+                <p><b>De:</b> Paulo Artur Pinheiro Viana Villaça e </p>
+                <p><b>Turma:</b> Inf31l</p>
+            </div>
+            <div class="título">
+                <p><b>Trab. Estatística</b></p>
+            </div>
+            <div class="Sobre">
+                <a href="xxxx" class="About">Sobre o trabalho</a>
+            </div>
+        </header>
+
+        <main>
+            <button class="gerador" id="gerador" onclick="tablegen()">Gerar uma Tabela</button>
+            <table class="tabela" id="tabela" hidden="true">
+                <caption>El Tabela gerada</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Pessoas</th>
+                        <th scope="col">Val Total</th>
+                        <th scope="col">Val Relativo</th>
+                        <th scope="col">Porcentagem (%)</th>
+                    </tr>
+                </thead>
+
+            </table>
+            <div class="func" id="func" hidden="true">
+                <select class="funcSel" id="funcSel">
+                    <option value="Média">Média</option>
+                    <option value="Moda">Moda</option>
+                    <option value="Variação">Variação</option>
+                    <option value="Mediana">Mediana</option>
+                    <option value="Desvio médio">Desvio médio</option>
+                    <option value="Variância">Variância</option>
+                    <option value="Desvio Padrão">Desvio Padrão</option>
+                </select>
+                <button class="funcBtn" id="funcBtn" onclick="acrescentarRes(4, 'ololo')">Selecionar Função</button>
+            </div>
+        </main>
+
+    </body>
+</html>
