@@ -1,4 +1,6 @@
-let data, total;
+let data = new Array(); 
+total = 0;
+
 
 function tablegen() {
     // pegar/criar os elementos html
@@ -102,25 +104,34 @@ function acrescentarRes(dados, desc) {
     let relativo    = document.createElement("td");
     let porcentagem = document.createElement("td");
 
-    nome.innerHTML          = desc;
-    bruto.innerHTML         = dados.toString();
-    relativo.innerHTML      = genRelativo(total, dados).toPrecision(3);
-    porcentagem.innerHTML   = genPorcentagem(total, dados).toPrecision(3);
+    nome.innerHTML = desc;
+    if(typeof dados === 'number') {
+        bruto.innerHTML         = dados.toPrecision(3).toString();
+        relativo.innerHTML      = genRelativo(total, dados).toPrecision(3);
+        porcentagem.innerHTML   = genPorcentagem(total, dados).toPrecision(3);
+    
+        row.appendChild(nome);
+        row.appendChild(bruto);
+        row.appendChild(relativo);
+        row.appendChild(porcentagem);
+    }
+    else {
+        bruto.innerHTML = dados;
 
-    row.appendChild(nome);
-    row.appendChild(bruto);
-    row.appendChild(relativo);
-    row.appendChild(porcentagem);
+        row.appendChild(nome);
+        row.appendChild(bruto);
+    }
+
     bTable.appendChild(row);
-
     table.appendChild(bTable);
 };
 
+
 // função utilizada quando o botão de gerar função é clicado
 function gerarFunc() {
-    let func = document.body.getElementById('funcSel').innerHTML;
-    switch(func) {
-    case 'Média':
+    let func = document.getElementById('funcSel');
+    switch(func.value) {
+    case "Média":
         funcMedia();
         break;
     case 'Moda':
@@ -147,64 +158,158 @@ function gerarFunc() {
 };
 
 function funcMedia(){
-    let data = this.data;
+    let data    = this.data;
+    let total   = this.total; 
     let retorno = 0;
 
     //código da sua função vai aqui
     //...
+    retorno = hlpMedia(total, data.length);
 
-    acrescentarRes(retorno, 'Média:')
+    acrescentarRes(retorno, 'Média: ')
 }
 function funcModa(){
-    let data = this.data;
+    let data    = this.data;
+    let buffer  = new Array();
     let retorno = 0;
 
-    acrescentarRes(retorno, 'Média:')
+    let ordenada = data.sort();
+
+    let ultimo = 0;
+    let j = 0;
+    let count = 0;
+    for(let i = 0; i < ordenada.length; i++) {
+        if(i != 0)
+            ultimo = ordenada[i-1];
+
+        
+        if(ultimo == ordenada[i]) {
+            count++;
+            buffer[j] = {
+                count: count,
+                valor: ordenada[i],
+            };
+        }
+        else {
+            count = 0;
+            j++;
+        }
+    }
+
+    if(buffer.length > 1) {
+        let max = buffer.reduce(function (prev, current) {
+            return (prev && prev.count > current.count) ? prev : current;
+        });
+        retorno = max.valor;
+    }
+    else
+        retorno = data[0];
+    acrescentarRes(retorno, 'Moda: ')
 }
 function funcVariacao(){
-    let data = this.data;
-    let retorno = 0;
+    let data    = this.data;
+    let total   = this.total
 
     //código da sua função vai aqui
     //...
 
-    acrescentarRes(retorno, 'Média:')
+    // média
+    let media   = hlpMedia(total, data.length);
+    // desvio padrão
+    let desPad  = math.std(data);
+
+    retorno = desPad/media; 
+
+    acrescentarRes(retorno, 'Variação: ');
 }
 function funcMediana(){
-    let data = this.data;
+    let data    = this.data;
+    let tamanho = data.length;
+    let ordem   = data.sort((a, b) => a - b);
     let retorno = 0;
 
     //código da sua função vai aqui
     //...
 
-    acrescentarRes(retorno, 'Média:')
+    if(data.length % 2 == 0) {
+        retorno = ordem[(tamanho / 2)].toString() + " " + (ordem[(tamanho / 2) +1]).toString();
+    }
+    else
+        retorno = ordem[(tamanho / 2) - .5];
+
+    acrescentarRes(retorno, 'Mediana: ')
 }
 function funcDesvioMed(){
     let data = this.data;
+    let total = this.total;
     let retorno = 0;
 
-    //código da sua função vai aqui
-    //...
+    // media
+    //let media = hlpMedia(total, data.length);
+//
+    ////código da sua função vai aqui
+    ////...
+//
+    //for(let i = 0; i < data.length; i++)
+    //    retorno += Math.abs(data[i] - media);
+    //
+    //retorno = retorno / data.length;
 
-    acrescentarRes(retorno, 'Média:')
+    retorno = math.mad(data);
+
+    acrescentarRes(retorno, 'Desvio Médio:');
 }
 function funcVariancia(){
-    let data = this.data;
+    let data    = this.data;
+    let total   = this.total;
     let retorno = 0;
 
     //código da sua função vai aqui
     //...
 
-    acrescentarRes(retorno, 'Média:')
+    //media 
+    //let media =  hlpMedia(total, data.length);
+//
+    //for(let i = 0; i < data.length; i++)
+    //    retorno += Math.pow(data[i] - media, 2);
+//
+    //retorno = retorno /  data.length - 1; 
+
+    
+    retorno = math.variancia(data);
+    acrescentarRes(retorno, 'Variancia:');
 }
 function funcDesvioPad(){
-    let data = this.data;
+    let data    = this.data;
     let retorno = 0;
+    let total   = this.total;
 
     //código da sua função vai aqui
     //...
 
-    acrescentarRes(retorno, 'Média:')
+    //achar media
+    //let media = hlpMedia(total, data.length);
+//
+    //retorno   = hlpDesvioPadrao(data, media);
+
+    retorno = math.std(data);
+    acrescentarRes(retorno, 'Desvio Padrão: ');
+};
+
+function hlpMedia(total, qtd) {
+    return total / qtd;
+};
+
+function hlpDesvioPadrao(elementos, media) {
+    let res = 0;
+
+    for (var i = 0; i < elementos.length; i++)
+        res += Math.pow(elementos[i] - media, 2);
+
+    res = res/elementos.length;
+
+    return res;
 }
+
 
 
