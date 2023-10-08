@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+}
+
+body {
+    background-color: #180811;
+    color: #dbe;
+}
+
+a {
+    text-decoration: none;
+    color: #dbe;
+}
+
+.título {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+header.header {
+    display: flex;
+    flex-flow: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: #0e040b;
+    padding-bottom: 5px;
+    border-bottom-style: solid;
+    border-bottom-color: #4e212e;
+}
+
+main {
+    display: flex;
+    flex-flow: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.gerador {
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+}
+
+.centralizar {
+    transform:  translate(-50%);
+}
+
+/*
+    PALETA 1
+    #0e040b
+    #180811
+    #260e19
+    #371622
+    #4e212e
+    #69303c
+    #8a434c
+    #b05b5f
+*/
+

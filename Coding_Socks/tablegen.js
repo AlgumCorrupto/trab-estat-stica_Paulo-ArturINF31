@@ -276,7 +276,7 @@ function funcVariancia(){
     //retorno = retorno /  data.length - 1; 
 
     
-    retorno = math.variancia(data);
+    retorno = math.variance(data);
     acrescentarRes(retorno, 'Variancia:');
 }
 function funcDesvioPad(){
