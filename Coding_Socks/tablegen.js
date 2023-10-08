@@ -20,7 +20,7 @@ function tablegen() {
     func.hidden     = false;
 
     //gerar dados (aleatórios) para a tabela 
-    data    = genRandData();
+    data    = genRandData(2, 10);
     total   = data.reduce((a, b) => {return a + b}); // soma da array
 
 
@@ -68,12 +68,15 @@ function tablegen() {
 
     table.appendChild(tableBody);
 
+    if(!data.length)
+        tablegen();
+
     this.total  = total;
     this.data   = data;
 };
 
-function genRandData() {
-    let numPessoas  = Math.floor(Math.random() * 10);
+function genRandData(min,  max) {
+    let numPessoas  = Math.floor(Math.random() * (max - min) + min);
     let pessoas     = new Array(numPessoas);
     for(let i = 0; i < pessoas.length; i++) 
         pessoas[i] = Math.floor(Math.random() * 40);
@@ -241,19 +244,7 @@ function funcMediana(){
 }
 function funcDesvioMed(){
     let data = this.data;
-    let total = this.total;
     let retorno = 0;
-
-    // media
-    //let media = hlpMedia(total, data.length);
-//
-    ////código da sua função vai aqui
-    ////...
-//
-    //for(let i = 0; i < data.length; i++)
-    //    retorno += Math.abs(data[i] - media);
-    //
-    //retorno = retorno / data.length;
 
     retorno = math.mad(data);
 
@@ -263,18 +254,6 @@ function funcVariancia(){
     let data    = this.data;
     let total   = this.total;
     let retorno = 0;
-
-    //código da sua função vai aqui
-    //...
-
-    //media 
-    //let media =  hlpMedia(total, data.length);
-//
-    //for(let i = 0; i < data.length; i++)
-    //    retorno += Math.pow(data[i] - media, 2);
-//
-    //retorno = retorno /  data.length - 1; 
-
     
     retorno = math.variance(data);
     acrescentarRes(retorno, 'Variancia:');
@@ -282,15 +261,6 @@ function funcVariancia(){
 function funcDesvioPad(){
     let data    = this.data;
     let retorno = 0;
-    let total   = this.total;
-
-    //código da sua função vai aqui
-    //...
-
-    //achar media
-    //let media = hlpMedia(total, data.length);
-//
-    //retorno   = hlpDesvioPadrao(data, media);
 
     retorno = math.std(data);
     acrescentarRes(retorno, 'Desvio Padrão: ');
@@ -300,16 +270,6 @@ function hlpMedia(total, qtd) {
     return total / qtd;
 };
 
-function hlpDesvioPadrao(elementos, media) {
-    let res = 0;
-
-    for (var i = 0; i < elementos.length; i++)
-        res += Math.pow(elementos[i] - media, 2);
-
-    res = res/elementos.length;
-
-    return res;
-}
 
 
 
